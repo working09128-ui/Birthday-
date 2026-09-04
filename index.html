@@ -5,192 +5,458 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday My Queen 👑✨</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    
-    body { 
-      background: #0d0814; 
-      color: #fff; 
-      text-align: center; 
-      padding: 20px 15px;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(at 10% 10%, rgba(255, 105, 180, 0.2) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, rgba(186, 85, 211, 0.2) 0px, transparent 50%);
+    :root {
+      --primary: #ff758c;
+      --secondary: #ff7eb3;
+      --accent: #ffb6c1;
+      --bg-dark: #0d0814;
+      --glass: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 182, 193, 0.25);
     }
 
-    .container { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    .card { 
-      background: rgba(255, 255, 255, 0.05); 
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 28px; 
-      padding: 28px 22px; 
-      border: 1px solid rgba(255, 182, 193, 0.2); 
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1); 
+    body { 
+      background: var(--bg-dark); 
+      color: #fff; 
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
       position: relative;
     }
 
+    /* Animated Background */
+    .bg-animation {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      background: radial-gradient(circle at 15% 50%, rgba(255, 117, 140, 0.15), transparent 40%),
+                  radial-gradient(circle at 85% 30%, rgba(186, 85, 211, 0.15), transparent 40%);
+    }
+    .bg-animation span {
+      position: absolute;
+      display: block;
+      width: 20px; height: 20px;
+      background: rgba(255, 182, 193, 0.2);
+      animation: floatUp 20s linear infinite;
+      bottom: -150px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 117, 140, 0.3);
+    }
+    .bg-animation span:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; animation-delay: 0s; }
+    .bg-animation span:nth-child(2) { left: 25%; width: 15px; height: 15px; animation-duration: 18s; animation-delay: 2s; }
+    .bg-animation span:nth-child(3) { left: 40%; width: 25px; height: 25px; animation-duration: 15s; animation-delay: 4s; }
+    .bg-animation span:nth-child(4) { left: 60%; width: 50px; height: 50px; animation-duration: 22s; animation-delay: 0s; background: rgba(186, 85, 211, 0.15); }
+    .bg-animation span:nth-child(5) { left: 75%; width: 35px; height: 35px; animation-duration: 16s; animation-delay: 3s; }
+    .bg-animation span:nth-child(6) { left: 90%; width: 20px; height: 20px; animation-duration: 14s; animation-delay: 5s; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+
+    .container { 
+      max-width: 480px; 
+      margin: 0 auto; 
+      padding: 30px 20px 60px; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 32px; 
+    }
+    
+    /* Premium Glassmorphism Card with 3D Tilt */
+    .card { 
+      background: var(--glass); 
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 32px; 
+      padding: 32px 24px; 
+      border: 1px solid var(--glass-border); 
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15); 
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .card.visible {
+      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .subtitle { 
-      font-size: 0.72rem; 
-      letter-spacing: 3px; 
-      color: #ffb6c1; 
-      margin-bottom: 12px; 
-      font-weight: 800; 
+      font-size: 0.75rem; 
+      letter-spacing: 4px; 
+      color: var(--accent); 
+      margin-bottom: 16px; 
+      font-weight: 700; 
       text-transform: uppercase;
     }
 
     h1, h2 { 
       font-family: 'Playfair Display', serif;
-      font-size: 1.85rem; 
-      margin-bottom: 12px; 
-      background: linear-gradient(135deg, #fff 30%, #ff9a9e 100%);
+      font-size: 2rem; 
+      margin-bottom: 16px; 
+      background: linear-gradient(135deg, #fff 20%, #ff9a9e 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      line-height: 1.3;
     }
 
-    p { font-size: 0.95rem; line-height: 1.6; color: #e2d9f3; font-weight: 400; }
+    .romantic-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #ffb6c1;
+      margin-bottom: 10px;
+    }
+
+    p { font-size: 1rem; line-height: 1.7; color: #e2d9f3; font-weight: 400; }
     
+    /* Premium Button */
     button { 
-      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); 
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); 
       border: none; 
       color: white; 
-      padding: 14px 28px; 
+      padding: 16px 32px; 
       border-radius: 50px; 
       font-weight: 700; 
       cursor: pointer; 
-      margin-top: 18px; 
-      font-size: 0.92rem; 
-      box-shadow: 0 8px 25px rgba(255, 117, 140, 0.4); 
-      transition: all 0.3s ease;
+      margin-top: 20px; 
+      font-size: 1rem; 
+      box-shadow: 0 10px 30px rgba(255, 117, 140, 0.4); 
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
     }
     
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.5s;
+    }
+    
+    button:hover::before { left: 100%; }
+    button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 35px rgba(255, 117, 140, 0.5); }
     button:active { transform: scale(0.96); }
 
     .crown-badge {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+      font-size: 3rem;
+      margin-bottom: 15px;
       display: inline-block;
-      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
       animation: float 3s ease-in-out infinite;
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+      0%, 100% { transform: translateY(0px) rotate(-5deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
     }
 
-    .cake { width: 110px; height: 75px; background: linear-gradient(135deg, #ff9a9e, #fecfef); margin: 30px auto 10px; border-radius: 16px 16px 0 0; position: relative; }
-    .candle { width: 10px; height: 30px; background: #fff; position: absolute; top: -30px; left: 50px; border-radius: 4px; }
-    .flame { width: 12px; height: 16px; background: #ffaa00; border-radius: 50%; position: absolute; top: -16px; display: none; box-shadow: 0 0 15px #ffaa00, 0 0 25px #ff4500; }
-    .flame.lit { display: block; animation: flicker 0.6s ease-in-out infinite alternate; }
+    /* Enhanced Cake */
+    .cake-container { margin: 30px auto 15px; position: relative; width: 120px; height: 90px; }
+    .cake { 
+      width: 120px; height: 70px; 
+      background: linear-gradient(135deg, #ff9a9e, #fecfef); 
+      border-radius: 16px 16px 8px 8px; 
+      position: relative; 
+      box-shadow: 0 10px 25px rgba(255, 154, 158, 0.3);
+    }
+    .cake::before {
+      content: ''; position: absolute; top: -15px; left: 10px; right: 10px; height: 15px;
+      background: #fff; border-radius: 10px 10px 0 0; opacity: 0.9;
+    }
+    .candle { width: 12px; height: 35px; background: linear-gradient(to right, #fff, #eee); position: absolute; top: -45px; left: 54px; border-radius: 4px; z-index: 2; }
+    .flame { 
+      width: 16px; height: 20px; 
+      background: radial-gradient(ellipse at bottom, #ffeb3b 0%, #ff9800 50%, #ff5722 100%); 
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; 
+      position: absolute; top: -22px; left: -2px; 
+      display: none; 
+      box-shadow: 0 0 20px #ff9800, 0 0 40px #ff5722, 0 0 60px rgba(255, 87, 34, 0.5); 
+      animation: flicker 0.1s ease-in-out infinite alternate;
+    }
+    .flame.lit { display: block; }
+    .cake.glowing { box-shadow: 0 0 30px rgba(255, 154, 158, 0.6), 0 0 60px rgba(255, 117, 140, 0.4); }
 
     @keyframes flicker {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.15); }
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.1) rotate(2deg); }
     }
 
-    .gallery { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+    /* Premium Gallery Grid */
+    .gallery { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px; 
+      margin-top: 15px; 
+    }
     .gallery img, .gallery video { 
       width: 100%; 
       border-radius: 20px; 
-      border: 1px solid rgba(255, 182, 193, 0.3); 
+      border: 2px solid rgba(255, 255, 255, 0.1); 
       display: block; 
       object-fit: cover; 
+      aspect-ratio: 1;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
+    .gallery img:hover, .gallery video:hover { 
+      transform: scale(1.05) translateY(-5px); 
+      border-color: var(--accent); 
+      box-shadow: 0 15px 35px rgba(255, 117, 140, 0.4);
+      z-index: 10;
+    }
+    .gallery img:first-child { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery video { grid-column: span 2; aspect-ratio: 16/9; }
 
-    .hidden { display: none; margin-top: 18px; color: #ff7eb3; font-weight: 700; font-size: 1.15rem; line-height: 1.5; }
+    .audio-player-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    audio { width: 100%; height: 40px; filter: hue-rotate(300deg); }
+
+    .hidden { 
+      display: none; 
+      margin-top: 20px; 
+      padding: 20px;
+      background: rgba(255, 117, 140, 0.1);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 117, 140, 0.3);
+      color: #fff; 
+      font-weight: 600; 
+      font-size: 1.2rem; 
+      line-height: 1.6; 
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .signature {
+      margin-top: 20px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px rgba(255, 117, 140, 0.5);
+    }
+
+    /* Typing cursor */
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
 <body>
 
-  <audio id="bg-music" loop preload="auto">
-    <source src="https://actions.google.com/sounds/v1/holidays/happy_birthday_instrumental.ogg" type="audio/ogg">
-  </audio>
+  <!-- Floating Background Elements -->
+  <div class="bg-animation">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
 
   <div class="container">
     
-    <section class="card">
+    <!-- Card 1: Welcome -->
+    <section class="card" id="card1">
       <div class="crown-badge">👑</div>
-      <p class="subtitle">FOR MY ONE & ONLY QUEEN</p>
-      <h1>Something special is waiting for you... ✨</h1>
-      <button onclick="startSurprise()">Open Your Surprise 💖</button>
+      <p class="subtitle">For My One & Only Queen</p>
+      <h1>Something magical is waiting for you... ✨</h1>
+      
+      <button onclick="playMusicAndScroll()">Open Your Surprise & Play Song 🎵💖</button>
+
+      <div class="audio-player-box">
+        <p style="font-size: 0.75rem; color: var(--accent); margin-bottom: 8px; text-align: center;">🎧 Music Player (Tap play if blocked)</p>
+        <audio id="bg-music" controls loop preload="auto">
+          <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a8e1b1.mp3?filename=happy-birthday-155461.mp3" type="audio/mpeg">
+        </audio>
+      </div>
     </section>
 
-    <section id="cake-section" class="card">
-      <p class="subtitle">MAKE A WISH, BABE</p>
+    <!-- Card 2: Cake -->
+    <section class="card" id="cake-section">
+      <p class="subtitle">Make a Wish, Babe</p>
       <h2>Happy Birthday, Hamna! 💕</h2>
-      <div class="cake"><div class="candle"><div class="flame" id="flame"></div></div></div>
-      <button id="candle-btn" onclick="toggleCandle()">Light The Candle 🕯️</button>
+      <div class="cake-container">
+        <div class="cake" id="cake">
+          <div class="candle">
+            <div class="flame" id="flame"></div>
+          </div>
+        </div>
+      </div>
+      <button id="candle-btn" onclick="toggleCandle()" style="width: 100%;">Light The Candle 🕯️</button>
     </section>
 
+    <!-- Card 3: Message -->
     <section class="card">
-      <p class="subtitle">FROM THE HEART 💌</p>
+      <p class="subtitle">From The Heart 💌</p>
       <h2>A Message For My Queen</h2>
-      <p>
-        "Meri pyari Hamna, Happy Birthday janu! Aap meri munii, meri zindagi ka sab se khoobsurat hissa ho. 
-        Mera sab kuch aap se hi hai. Aise hi hamesha mera sath muskurati raho!"
-      </p>
-      <p style="margin-top: 16px; font-weight: 700; color: #ff9a9e; font-size: 1rem;">— Yours Forever, Sufiyan 👑❤️</p>
+      <p class="romantic-text typing-cursor" id="typing-text"></p>
+      <div class="signature">— Yours Forever, Sufiyan 👑❤️</div>
     </section>
 
+    <!-- Card 4: Gallery -->
     <section class="card">
-      <p class="subtitle">MAIN CHARACTER ENERGY ✨</p>
+      <p class="subtitle">Main Character Energy ✨</p>
       <h2>Our Favorite Moments</h2>
       <div class="gallery">
-        <img src="1.jpg" alt="Memory 1">
-        <img src="2.jpg" alt="Memory 2">
-        <img src="3.jpg" alt="Memory 3">
-        <img src="4.jpg" alt="Memory 4">
+        <!-- Aapke diye gaye file names bilkul same hain -->
+        <img src="1.jpg" alt="Beautiful Memory 1">
+        <img src="2.jpg" alt="Beautiful Memory 2">
+        <img src="3.jpg" alt="Beautiful Memory 3">
+        <img src="4.jpg" alt="Beautiful Memory 4">
         
-        <video controls playsinline preload="metadata">
+        <video controls playsinline preload="metadata" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23333'/%3E%3Ctext x='50%25' y='50%25' fill='%23fff' font-size='2' text-anchor='middle' dy='.3em'%3EVideo 1%3C/text%3E%3C/svg%3E">
           <source src="5.mp4" type="video/mp4">
         </video>
         
-        <video controls playsinline preload="metadata">
+        <video controls playsinline preload="metadata" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23333'/%3E%3Ctext x='50%25' y='50%25' fill='%23fff' font-size='2' text-anchor='middle' dy='.3em'%3EVideo 2%3C/text%3E%3C/svg%3E">
           <source src="6.mp4" type="video/mp4">
         </video>
       </div>
     </section>
 
+    <!-- Card 5: Final Surprise -->
     <section class="card">
-      <p class="subtitle">ONE LAST SURPRISE 💖</p>
+      <p class="subtitle">One Last Surprise 💖</p>
       <h2>Ready for your final gift?</h2>
-      <button onclick="unlockSurprise()">Unlock Surprise ✨</button>
+      <button onclick="unlockSurprise()" style="width: 100%;">Unlock Surprise ✨</button>
       <div id="final-message" class="hidden">
-        Aap dunya ki sab se pyari aur best begum ho! Love you infinity! 👑🎉💖✨
+        🎉 Aap dunya ki sab se pyari aur best begum ho! <br>
+        <span style="font-family: 'Dancing Script', cursive; font-size: 1.6rem; color: #ff9a9e; display: block; margin-top: 10px;">Love you infinity! 👑💖✨</span>
       </div>
     </section>
 
   </div>
 
   <script>
-    function startSurprise() {
-      document.getElementById('cake-section').scrollIntoView({ behavior: 'smooth' });
+    // 1. Scroll Animation (Intersection Observer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+    // 2. 3D Tilt Effect for Cards
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -4; 
+        const rotateY = ((x - centerX) / centerX) * 4;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+      });
+    });
+
+    // 3. Music & Scroll
+    function playMusicAndScroll() {
       let music = document.getElementById('bg-music');
-      if (music.paused) { 
-        music.play().catch(e => console.log("Audio autoplay blocked")); 
-      }
+      music.play().catch(err => console.log("Autoplay blocked, user can tap controls"));
+      
+      // Massive confetti on open
+      confetti({ particleCount: 200, spread: 120, origin: { y: 0.6 }, colors: ['#ff758c', '#ff7eb3', '#ffd700'] });
+      
+      setTimeout(() => {
+        document.getElementById('cake-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500);
     }
+
+    // 4. Candle Toggle with Glow & Confetti
     function toggleCandle() {
       let flame = document.getElementById('flame');
+      let cake = document.getElementById('cake');
       let btn = document.getElementById('candle-btn');
+      
       if (flame.classList.contains('lit')) {
         flame.classList.remove('lit');
+        cake.classList.remove('glowing');
         btn.innerText = "Light The Candle 🕯️";
       } else {
         flame.classList.add('lit');
+        cake.classList.add('glowing');
         btn.innerText = "Blow The Candle 🌬️";
-        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ffeb3b', '#ff9800', '#ff5722'] });
       }
     }
+
+    // 5. Typing Effect for Message
+    const message = "Meri pyari Hamna, Happy Birthday janu! Aap meri munii, meri zindagi ka sab se khoobsurat hissa ho. Mera sab kuch aap se hi hai. Aise hi hamesha mera sath muskurati raho!";
+    const typingElement = document.getElementById('typing-text');
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (charIndex < message.length) {
+        typingElement.innerHTML += message.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 40); // Typing speed
+      } else {
+        typingElement.classList.remove('typing-cursor');
+      }
+    }
+
+    // Trigger typing when message card is visible
+    const msgObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && charIndex === 0) {
+        typeWriter();
+      }
+    }, { threshold: 0.5 });
+    msgObserver.observe(typingElement.parentElement);
+
+    // 6. Unlock Surprise
     function unlockSurprise() {
-      document.getElementById('final-message').classList.remove('hidden');
-      confetti({ particleCount: 220, spread: 100, origin: { y: 0.5 } });
+      const finalMsg = document.getElementById('final-message');
+      finalMsg.style.display = 'block';
+      
+      // Epic confetti explosion
+      const duration = 2000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#ff758c', '#ffb6c1', '#ffd700']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#ff758c', '#ffb6c1', '#ffd700']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
     }
   </script>
 </body>
