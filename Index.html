@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Hamna Janu ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background: #0f0a1c; color: white; text-align: center; padding: 20px; }
+    .container { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 25px; }
+    .card { background: #1a122e; border-radius: 20px; padding: 25px 20px; border: 1px solid #322554; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .subtitle { font-size: 0.75rem; letter-spacing: 2px; color: #b3a0df; margin-bottom: 10px; font-weight: bold; }
+    h1, h2 { font-size: 1.7rem; margin-bottom: 12px; color: #ff7eb3; text-shadow: 0 0 10px rgba(255,126,179,0.3); }
+    p { font-size: 0.95rem; line-height: 1.6; color: #dcd6f7; }
+    button { background: linear-gradient(45deg, #8a2be2, #c71585); border: none; color: white; padding: 12px 24px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(200,21,133,0.4); }
+    .cake { width: 110px; height: 75px; background: #ff6b81; margin: 30px auto 10px; border-radius: 12px 12px 0 0; position: relative; }
+    .candle { width: 10px; height: 30px; background: #fff; position: absolute; top: -30px; left: 50px; border-radius: 2px; }
+    .flame { width: 12px; height: 16px; background: orange; border-radius: 50%; position: absolute; top: -16px; display: none; box-shadow: 0 0 12px orange; }
+    .flame.lit { display: block; }
+    .gallery img { width: 100%; border-radius: 15px; margin-bottom: 15px; border: 2px solid #322554; }
+    .hidden { display: none; margin-top: 15px; color: #ff7eb3; font-weight: bold; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container">
+    
+    <section class="card">
+      <p class="subtitle">A LITTLE SURPRISE FOR MY BEGUM</p>
+      <h1>Something special is waiting for you...</h1>
+      <button onclick="startSurprise()">Open Your Surprise ✨</button>
+    </section>
+
+    <section id="cake-section" class="card">
+      <p class="subtitle">5TH SEPTEMBER • SPECIAL DAY</p>
+      <h2>Happy Birthday, Hamna! ❤️</h2>
+      <div class="cake"><div class="candle"><div class="flame" id="flame"></div></div></div>
+      <button id="candle-btn" onclick="toggleCandle()">Light The Candle 🕯️</button>
+    </section>
+
+    <section class="card">
+      <p class="subtitle">FROM THE HEART</p>
+      <h2>A Message For You 💌</h2>
+      <p>
+        "Meri pyari Hamna, Happy Birthday janu! Aap meri munii, meri zindagi ka sab se khoobsurat hissa ho. 
+        Mera sab kuch aap se hi hai. Allah aapko hamesha aise hi khush aur muskurata rakhe. 
+        Main har morh par, har haal me hamesha aapke sath hoon."
+      </p>
+      <p style="margin-top: 15px; font-weight: bold; color: #ff7eb3;">— Yours Forever, Sufiyan ❤️</p>
+    </section>
+
+    <section class="card">
+      <p class="subtitle">THE GOOD TIMES</p>
+      <h2>Our Beautiful Memories</h2>
+      <div class="gallery">
+        <img src="1000178635.jpg" alt="Memory 1">
+        <img src="1000178638.jpg" alt="Memory 2">
+        <img src="1000178636.jpg" alt="Memory 3">
+        <img src="1000155189.jpg" alt="Memory 4">
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="subtitle">ONE LAST THING</p>
+      <h2>Ready for your final surprise?</h2>
+      <button onclick="unlockSurprise()">Surprise Unlocked 💖</button>
+      <div id="final-message" class="hidden">
+        Aap dunya ki sab se behtareen aur pyari begum hain! Love you so much Hamna! 🎉✨❤️
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function startSurprise() {
+      document.getElementById('cake-section').scrollIntoView({ behavior: 'smooth' });
+      let music = document.getElementById('bg-music');
+      if (music.paused) { music.play(); }
+    }
+    function toggleCandle() {
+      let flame = document.getElementById('flame');
+      let btn = document.getElementById('candle-btn');
+      if (flame.classList.contains('lit')) {
+        flame.classList.remove('lit');
+        btn.innerText = "Light The Candle 🕯️";
+      } else {
+        flame.classList.add('lit');
+        btn.innerText = "Blow The Candle 🌬️";
+        confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+    function unlockSurprise() {
+      document.getElementById('final-message').classList.remove('hidden');
+      confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+    }
+  </script>
+</body>
+</html>
+
